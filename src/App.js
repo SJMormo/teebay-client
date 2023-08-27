@@ -5,6 +5,7 @@ import AllProducts from './Pages/AllProducts/AllProducts';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignUp from './Pages/Login/SignUp';
 import Header from './Pages/Header';
+import ProductList from './Pages/ProductList';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<AllProducts></AllProducts>}></Route>
         <Route path="/signin" element={<SignIn></SignIn>}></Route>
         <Route path="/signup" element={<SignUp></SignUp>}></Route>
+        <Route path="/productlist" element={<ProductList></ProductList>}></Route>
       </Routes>
     </div>
   );
