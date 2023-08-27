@@ -1,19 +1,28 @@
 import React, { useRef } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 
 const SignUp = () => {
-    const navigate = useNavigate();
-    const emailRef = useRef('');
-    const passwordRef = useRef('');
+  const navigate = useNavigate();
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
 
-    const handleRegister = event => {
-        event.preventDefault();
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
 
-        console.log(email, password);
-    }
+  if (user) {
+    navigate("/signin");
+  }
+
+  const handleRegister = (event) => {
+    event.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    createUserWithEmailAndPassword(email, password);
+    console.log(email, password);
+  };
 
   return (
     <div>
@@ -49,7 +58,7 @@ const SignUp = () => {
         </Button>
         <p className="mt-2 text-center">Already Have an Account?</p>
         <Link className="btn btn-outline-dark w-100" to="/signin">
-          LOGIN HERE
+          SignIn
         </Link>
       </Form>
     </div>
