@@ -31,9 +31,14 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {/* <Nav.Link className="fs-5 text-black" as={Link} to="/blogs">
-                Blogs
-              </Nav.Link> */}
+              { user?
+                <Nav.Link className="fs-5 text-black" as={Link} to="/myproducts">
+                  My Products
+                </Nav.Link>
+                :
+                <></>
+              }
+
               {user ? (
                 <Nav.Link
                   className="fs-5 text-black"
