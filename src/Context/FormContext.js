@@ -39,7 +39,8 @@ export const FormProvider = ({ children }) => {
 
     const name = e.target.name;
 
-    const value = type === "checkbox" ? e.target.checked : e.target.value;
+    const value = e.target.value;
+    // const value = type === "checkbox" ? e.target.checked : e.target.value;
 
     setData((prevData) => ({
       ...prevData,
@@ -48,38 +49,49 @@ export const FormProvider = ({ children }) => {
   };
 
   const {
-    billAddress2,
-    sameAsBilling,
-    shipAddress2,
-    optInNews,
+    titleForm,
+    categoryForm,
+    descriptionForm,
+    priceForm,
     ...requiredInputs
   } = data;
 
   const canSubmit =
-    [...Object.values(requiredInputs)].every(Boolean) && page === Object.keys(title).length - 1;
+    // [...Object.values(requiredInputs)].every(Boolean) && 
+    page === Object.keys(title).length - 1;
 
   const canNextPage1 = Object.keys(data)
-    .filter((key) => key.startsWith("bill") && key !== "billAddress2")
+    .filter((key) => key === "title")
+    .map((key) => data[key])
+    .every(Boolean);
+  const canNextPage2 = Object.keys(data)
+    .filter((key) => key === 'category')
+    // .map((key) => data[key])
+    .every(Boolean);
+  const canNextPage3 = Object.keys(data)
+    .filter((key) => key === 'description')
+    .map((key) => data[key])
+    .every(Boolean);
+  const canNextPage4 = Object.keys(data)
+    .filter((key) => key === 'price')
     .map((key) => data[key])
     .every(Boolean);
 
-  const canNextPage2 = Object.keys(data)
-    .filter((key) => key.startsWith("ship") && key !== "shipAddress2")
-    .map((key) => data[key])
-    .every(Boolean);
 
   const disablePrev = page === 0;
 
   const disableNext =
     page === Object.keys(title).length - 1 ||
     (page === 0 && !canNextPage1) ||
-    (page === 1 && !canNextPage2);
+    (page === 1 && !canNextPage2) ||
+    (page === 2 && !canNextPage3) || 
+    (page === 3 && !canNextPage4);
 
   const prevHide = page === 0 && "remove-button";
 
   const nextHide = page === Object.keys(title).length - 1 && "remove-button";
 
-  const submitHide = page !== Object.keys(title).length - 1 && "remove-button";
+  const submitHide = page !== Object.keys(title).length - 3 && "remove-button";
 
   return (
     <FormContext.Provider

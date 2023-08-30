@@ -3,7 +3,7 @@ import Title from "./FormTitle"
 import Description from "./FormDescription"
 import Price from "./FormPrice"
 import Summary from "./FormSummary"
-import useFormContext from "../hooks/useFormContext"
+import useFormContext from "../../Hooks/useFormContext"
 
 const FormInputs = () => {
 
