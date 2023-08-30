@@ -5,7 +5,7 @@ import { Col, Form, Row } from "react-bootstrap";
 const FormPrice = () => {
   const { data, handleChange } = useFormContext();
   return (
-    <>
+    <div>
       <Row className="mb-3">
         <Form.Group className="mt-5" as={Col} controlId="formGridZip">
           <Form.Control type="number" name="price" placeholder="Product Price" value={data.price} onChange={handleChange} />
@@ -25,7 +25,7 @@ const FormPrice = () => {
           </Form.Select>
         </Form.Group>
       </Row>
-    </>
+    </div>
 
     // <>
     //   <Form.Group className="mt-3">

@@ -91,7 +91,7 @@ export const FormProvider = ({ children }) => {
 
   const nextHide = page === Object.keys(title).length - 1 && "remove-button";
 
-  const submitHide = page !== Object.keys(title).length - 3 && "remove-button";
+  const submitHide = page !== Object.keys(title).length - 1 && "remove-button";
 
   return (
     <FormContext.Provider

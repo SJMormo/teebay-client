@@ -1,6 +1,6 @@
 import FormInputs from "./FormInputs";
 import useFormContext from "../../Hooks/useFormContext";
-import { Form } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
 const MainForm = () => {
   const {
@@ -27,38 +27,44 @@ const MainForm = () => {
 
   const content = (
     <Form className="w-50 mx-auto mt-5" onSubmit={handleSubmit}>
-      <h2>{title[page]}</h2>
+      <h2 className="d-flex justify-content-center">{title[page]}</h2>
       {/* <h2>{page}</h2> */}
 
-      <div className="button-container">
-        <button
-          type="button"
-          className={`button ${prevHide}`}
-          onClick={handlePrev}
-          disabled={disablePrev}
-        >
-          Prev
-        </button>
-
-        <button
-          type="button"
-          className={`button ${nextHide}`}
-          onClick={handleNext}
-          disabled={disableNext}
-        >
-          Next
-        </button>
-
-        <button
-          type="submit"
-          className={`button ${submitHide}`}
-          disabled={!canSubmit}
-        >
-          Submit
-        </button>
-      </div>
-
       <FormInputs />
+      
+        <Row>
+          <Col className="d-flex justify-content-evenly">
+            <Button
+              type="button"
+              className={`button ${prevHide}`}
+              onClick={handlePrev}
+              disabled={disablePrev}
+            >
+              Prev
+            </Button>
+          </Col>
+          <Col className="d-flex justify-content-evenly">
+            {nextHide ? (
+              <></>
+            ) : (
+              <Button type="button" onClick={handleNext} disabled={disableNext}>
+                Next
+              </Button>
+            )}
+
+            {submitHide ? (
+              <></>
+            ) : (
+              <Button
+                type="submit"
+                className={`button ${submitHide}`}
+                disabled={!canSubmit}
+              >
+                Submit
+              </Button>
+            )}
+          </Col>
+        </Row>
     </Form>
   );
 

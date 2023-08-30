@@ -18,7 +18,7 @@ const FormInputs = () => {
     }
 
     const content = (
-        <div className="form-inputs flex-col">
+        <div className="d-flex justify-content-center">
             {display[page]}
         </div>
     )
