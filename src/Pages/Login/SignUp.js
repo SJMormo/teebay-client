@@ -26,7 +26,7 @@ const SignUp = () => {
     useCreateUserWithEmailAndPassword(auth);
 
   if (user) {
-    navigate("/signin");
+    navigate("/");
   }
 
   const handleRegister = async (event) => {
@@ -34,8 +34,8 @@ const SignUp = () => {
     const name = nameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    // createUserWithEmailAndPassword(email, password);
-    console.log(name, email, password);
+    createUserWithEmailAndPassword(email, password);
+    // console.log(name, email, password);
 
     try {
       const { data } = await createUser({
@@ -43,7 +43,7 @@ const SignUp = () => {
       });
   
       console.log("User created:", data.createUser);
-      navigate("/signin");
+      navigate("/");
     } catch (error) {
       console.error("Error creating user:", error);
     }
