@@ -1,27 +1,18 @@
-import React, { useRef } from "react";
-import { Button, FloatingLabel, Form } from "react-bootstrap";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "../../graphql/mutations"; // Path to your mutation
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
-import { useMutation, gql } from "@apollo/client";
+import { Button, FloatingLabel, Form } from "react-bootstrap";
 
-const CREATE_USER = gql`
-  mutation CreateUser($name: String!) {
-    createUser(name: $name) {
-      id
-      name
-    }
-  }
-`;
-
-const SignUp = () => {
+const Signup = () => {
   const navigate = useNavigate();
-  const nameRef = useRef("");
-  const emailRef = useRef("");
-  const passwordRef = useRef("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [createUser] = useMutation(CREATE_USER);
-
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
@@ -29,21 +20,24 @@ const SignUp = () => {
     navigate("/");
   }
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    const name = nameRef.current.value;
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
-    createUserWithEmailAndPassword(email, password);
-    // console.log(name, email, password);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     try {
-      const { data } = await createUser({
-        variables: { name },
+      if(loading) {
+        <>Loading...</>
+      }
+      await createUserWithEmailAndPassword(email, password);
+      await createUser({
+        variables: {
+          name,
+          email,
+        },
       });
-  
-      console.log("User created:", data.createUser);
-      navigate("/");
+      console.log("User created successfully");
+      // Reset form fields after successful user creation
+      setName("");
+      setEmail("");
     } catch (error) {
       console.error("Error creating user:", error);
     }
@@ -51,45 +45,50 @@ const SignUp = () => {
 
   return (
     <div>
-      <Form onSubmit={handleRegister} className="w-50 mx-auto mt-3">
-        <FloatingLabel
-          controlId="floatingInput"
-          label="Name"
-          className="mb-3"
-        >
-          <Form.Control
-            ref={nameRef}
-            type="text"
-            placeholder="Name"
-            required
-          />
-        </FloatingLabel>
+      <Form onSubmit={handleSubmit} className="w-50 mx-auto mt-3">
+        <div>
+          <FloatingLabel controlId="floatingName" label="Name" className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </FloatingLabel>
+        </div>
 
-        <FloatingLabel
-          controlId="floatingInput"
-          label="Email address"
-          className="mb-3"
-        >
-          <Form.Control
-            ref={emailRef}
-            type="email"
-            placeholder="Enter email"
-            required
-          />
-        </FloatingLabel>
+        <div>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="Email address"
+            className="mb-3"
+          >
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </FloatingLabel>
+        </div>
 
-        <FloatingLabel
-          controlId="floatingPassword"
-          label="Password"
-          className="mb-3"
-        >
-          <Form.Control
-            ref={passwordRef}
-            type="password"
-            placeholder="Password"
-            required
-          />
-        </FloatingLabel>
+        <div>
+          <FloatingLabel
+            controlId="floatingPassword"
+            label="Password"
+            className="mb-3"
+          >
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </FloatingLabel>
+        </div>
 
         <Button className="w-100" variant="dark" type="submit">
           CREATE AN ACCOUNT
@@ -103,5 +102,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
-
+export default Signup;

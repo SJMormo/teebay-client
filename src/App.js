@@ -8,30 +8,38 @@ import Header from "./Pages/Header";
 import ProductList from "./Pages/ProductList";
 import { FormProvider } from "./Context/FormContext";
 import Form from "./Pages/AddProduct/MainForm";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/graphql",
+  cache: new InMemoryCache(),
+});
 
 function App() {
   return (
-    <div>
-      <Header></Header>
-      <Routes>
-        <Route path="/" element={<AllProducts></AllProducts>}></Route>
-        <Route path="/signin" element={<SignIn></SignIn>}></Route>
-        <Route path="/signup" element={<SignUp></SignUp>}></Route>
-        <Route
-          path="/productlist"
-          element={<ProductList></ProductList>}
-        ></Route>
+    <ApolloProvider client={client}>
+      <div>
+        <Header></Header>
+        <Routes>
+          <Route path="/" element={<AllProducts></AllProducts>}></Route>
+          <Route path="/signin" element={<SignIn></SignIn>}></Route>
+          <Route path="/signup" element={<SignUp></SignUp>}></Route>
+          <Route
+            path="/productlist"
+            element={<ProductList></ProductList>}
+          ></Route>
 
-        <Route
-          path="/addproduct"
-          element={
-            <FormProvider>
-              <Form></Form>
-            </FormProvider>
-          }
-        ></Route>
-      </Routes>
-    </div>
+          <Route
+            path="/addproduct"
+            element={
+              <FormProvider>
+                <Form></Form>
+              </FormProvider>
+            }
+          ></Route>
+        </Routes>
+      </div>
+    </ApolloProvider>
   );
 }
 
