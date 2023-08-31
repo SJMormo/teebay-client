@@ -9,6 +9,7 @@ import ProductList from "./Pages/ProductList";
 import { FormProvider } from "./Context/FormContext";
 import Form from "./Pages/AddProduct/MainForm";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import MyProducts from "./Pages/MyProducts/MyProducts";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -24,10 +25,8 @@ function App() {
           <Route path="/" element={<AllProducts></AllProducts>}></Route>
           <Route path="/signin" element={<SignIn></SignIn>}></Route>
           <Route path="/signup" element={<SignUp></SignUp>}></Route>
-          <Route
-            path="/productlist"
-            element={<ProductList></ProductList>}
-          ></Route>
+          <Route path="/productlist" element={<ProductList></ProductList>}></Route>
+          <Route path="/myproducts" element={<MyProducts></MyProducts>}></Route>
 
           <Route
             path="/addproduct"
